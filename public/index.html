@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Luau ASCII Obfuscator</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="wrap">
+    <h1>Luau ASCII Obfuscator — One-line + Junk</h1>
+    <p class="lead">Dán code Luau vào bên trái → nhấn "Obfuscate" → nhận 1 dòng minified sẵn để copy/paste. Junk code tự sinh dài theo độ dài code gốc.</p>
+
+    <section class="cols">
+      <div class="col">
+        <label>Input (Lua / Luau)</label>
+        <textarea id="input" placeholder="Dán code Luau vào đây...">-- Ví dụ
+print("Hello world")
+for i=1,3 do print(i) end
+</textarea>
+        <div class="controls">
+          <label><input type="checkbox" id="optMinify" checked> Minify (remove comments)</label>
+          <button id="btnObf" class="btn primary">Obfuscate</button>
+        </div>
+      </div>
+
+      <div class="col">
+        <label>Output (One-line)</label>
+        <textarea id="output" readonly placeholder="Kết quả sẽ hiện ở đây..."></textarea>
+        <div class="controls right">
+          <button id="btnCopy" class="btn">Copy</button>
+          <button id="btnDl" class="btn">Download .lua</button>
+        </div>
+      </div>
+    </section>
+
+    <footer>Deploy lên Vercel: đặt toàn bộ thư mục này lên repo và `vercel` — function trong <code>/api/obfuscate.js</code> sẽ hoạt động.</footer>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
