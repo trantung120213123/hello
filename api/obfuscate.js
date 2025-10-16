@@ -1,4 +1,3 @@
-// api/obfuscate.js
 export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
 
@@ -56,15 +55,13 @@ export default async function handler(req, res) {
       junkStrings.push(encodeToEscapes(s));
     }
 
-    // 5) Merge: main chunks first, then junk (you can randomize order if wanted)
-    const allParts = chunks.concat(junkStrings);
+    // 5) Build one-line Lua output with main code first, junk code after, non-executable
+    const quoteParts = chunks.map(p => `"${p}"`);
+    const mainCode = `local p={${quoteParts.join(",")}}return p`;
+    const junkCode = `local j={${junkStrings.map(p => `"${p}"`).join(",")}}`;
+    const oneLine = `--[[obfuscated by hello obf]] return(function(...) ${mainCode} end)();${junkCode}`;
 
-    // 6) Build one-line Lua output
-    // each part needs to be wrapped in double quotes in JS string -> produce directly in output
-    const quoteParts = allParts.map(p => `"${p}"`);
-    const oneLine = `return(function(...)local p={${quoteParts.join(",")}}return p end)()`;
-
-    // 7) Respond
+    // 6) Respond
     res.status(200).json({ obfuscated: oneLine });
 
   } catch (err) {
